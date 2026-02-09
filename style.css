@@ -1,11 +1,17 @@
 * { margin:0; padding:0; box-sizing:border-box; }
 html, body { height:100%; }
 
+html{
+  /* evita “puxar” a página no mobile */
+  overscroll-behavior: none;
+}
+
 body{
   background:#000;
   color:#fff;
   font-family: "Inter", Arial, sans-serif;
   overflow:hidden; /* scroll controlado via JS */
+  touch-action: manipulation;
 }
 
 /* INTRO CINEMATOGRÁFICA */
@@ -76,6 +82,7 @@ body{
   height:100vh;
   width:100%;
   overflow:hidden;
+  touch-action: pan-y; /* swipe vertical “natural” */
 }
 
 /* HERO */
@@ -130,6 +137,7 @@ body{
   font-weight:400;
   letter-spacing:0.01em;
   text-shadow: 0 12px 42px rgba(0,0,0,0.55);
+  overflow: visible; /* o reveal é por linha */
 }
 
 .hero-rule{
@@ -148,15 +156,11 @@ body{
   line-height:1.6;
 }
 
-/* HERO REVEAL (revista) */
-.hero-title{
-  overflow: visible; /* o reveal é por linha */
-}
-
+/* HERO REVEAL */
 .hero-line{
   display:block;
-  overflow:hidden;          /* 👈 máscara */
-  padding-bottom: 6px;      /* respiração (opcional) */
+  overflow:hidden;
+  padding-bottom: 6px;
 }
 
 .hero-line-inner{
@@ -199,7 +203,6 @@ body{
   padding-left: 22px;
 }
 
-/* linha vertical (assinatura editorial) */
 .spread-text.editorial::before{
   content:"";
   position:absolute;
@@ -221,7 +224,6 @@ body{
   margin-bottom: 16px;
 }
 
-/* regra curta */
 .spread-line{
   width: 56px;
   height: 1px;
@@ -230,7 +232,6 @@ body{
   transform-origin: left center;
 }
 
-/* frase-chave destacada */
 .spread-quote{
   font-family:"Playfair Display", serif;
   font-size: 1.75rem;
@@ -240,7 +241,6 @@ body{
   opacity: 0.96;
 }
 
-/* texto de apoio */
 .spread-editorial{
   font-family:"Inter", Arial, sans-serif;
   font-size: 1.02rem;
@@ -263,11 +263,10 @@ body{
   opacity: 0.16;
   pointer-events: none;
   user-select: none;
-  z-index: 5; 
+  z-index: 5;
 }
 
-
-/* FINAL PREMIUM (ARQUITETURA / BLUEPRINT) */
+/* FINAL PREMIUM */
 .finale{
   display: grid;
   place-items: center;
