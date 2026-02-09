@@ -16,7 +16,7 @@ function armAfterDelay(ms = 1500){
   armTimer = setTimeout(() => (armed = true), ms);
 }
 
-/* HERO — REVEAL MAIS LENTO (revista / cinema) */
+/* HERO — REVEAL MAIS LENTO */
 function animateHero(force = false){
   if (heroPlayed && !force) return;
   heroPlayed = true;
@@ -26,7 +26,6 @@ function animateHero(force = false){
     ".hero-line-inner", ".hero-bg"
   ]);
 
-  // elementos de apoio (rápidos, mas elegantes)
   gsap.fromTo(
     [".hero-eyebrow", ".hero-rule", ".hero-sub"],
     { x: -28, opacity: 0 },
@@ -40,16 +39,15 @@ function animateHero(force = false){
     }
   );
 
-  // ✅ TÍTULO — REVEAL MAIS DEVAGAR
   gsap.fromTo(
     ".hero-line-inner",
     { x: -140, opacity: 0 },
     {
       x: 0,
       opacity: 1,
-      duration: 1.85,     // ← mais tempo
+      duration: 1.85,
       ease: "power4.out",
-      stagger: 0.30,      // ← mais leitura entre linhas
+      stagger: 0.30,
       overwrite: true
     }
   );
@@ -193,6 +191,7 @@ locked = false;
 
 playIntro();
 
+/* DESKTOP WHEEL */
 window.addEventListener("wheel", (e) => {
   e.preventDefault();
   if(locked || !armed) return;
@@ -204,6 +203,7 @@ window.addEventListener("wheel", (e) => {
   armed = false;
 }, { passive: false });
 
+/* TECLADO */
 window.addEventListener("keydown", (e) => {
   if(locked || !armed) return;
 
@@ -218,4 +218,56 @@ window.addEventListener("keydown", (e) => {
     goTo(index - 1);
     armed = false;
   }
+});
+
+/* ✅ MOBILE SWIPE (TOUCH) */
+let tStartX = 0;
+let tStartY = 0;
+let tLastX  = 0;
+let tLastY  = 0;
+let touching = false;
+
+const SWIPE_MIN = 55;     // sensibilidade (px)
+const ANGLE_RATIO = 0.75; // se arrastar muito pro lado, ignora
+
+window.addEventListener("touchstart", (e) => {
+  if (!e.touches || e.touches.length !== 1) return;
+  const t = e.touches[0];
+  tStartX = tLastX = t.clientX;
+  tStartY = tLastY = t.clientY;
+  touching = true;
+}, { passive: true });
+
+window.addEventListener("touchmove", (e) => {
+  if (!touching || !e.touches || e.touches.length !== 1) return;
+  const t = e.touches[0];
+  tLastX = t.clientX;
+  tLastY = t.clientY;
+
+  // como o body tá overflow:hidden, evita “bounce” em alguns navegadores
+  // e mantém a sensação premium (precisa passive:false)
+  e.preventDefault();
+}, { passive: false });
+
+window.addEventListener("touchend", () => {
+  if (!touching) return;
+  touching = false;
+
+  if (locked || !armed) return;
+
+  const dx = tLastX - tStartX;
+  const dy = tLastY - tStartY;
+
+  // pouco movimento = ignora
+  if (Math.abs(dy) < SWIPE_MIN) return;
+
+  // se o swipe foi muito diagonal/ horizontal, ignora
+  if (Math.abs(dx) > Math.abs(dy) * ANGLE_RATIO) return;
+
+  // swipe pra cima (dy negativo) -> próxima
+  if (dy < 0) goTo(index + 1);
+  // swipe pra baixo -> anterior
+  else goTo(index - 1);
+
+  armed = false;
 });
