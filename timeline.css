@@ -1,0 +1,285 @@
+/* RESET */
+*{ margin:0; padding:0; box-sizing:border-box; }
+html,body{ height:100%; }
+
+body{
+  background:#000;
+  color:#fff;
+  font-family:"Playfair Display", serif;
+  overflow:hidden; /* scroll controlado no JS */
+}
+
+/* SEÇÕES */
+.snap-section{
+  height:100vh;
+  width:100%;
+  overflow:hidden;
+}
+
+.timeline{
+  height:100vh;
+}
+
+/* GRID PRINCIPAL */
+.tl-grid{
+  height:100%;
+  display:grid;
+  grid-template-columns: 220px 1fr 520px;
+  align-items:center;
+  gap: 30px;
+  padding: 70px 70px;
+}
+
+/* ANO */
+.tl-year{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+.tl-yearStack{
+  font-family:"Great Vibes", cursive;
+  font-size: 92px;
+  line-height: 0.85;
+  letter-spacing: 0.02em;
+  opacity: 0.85;
+  text-shadow: 0 10px 40px rgba(0,0,0,0.7);
+  user-select:none;
+  text-align:center;
+}
+
+/* CENTRO */
+.tl-center{
+  position:relative;
+  height:100%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+/* LINHA */
+.tl-line{
+  position:absolute;
+  left:50%;
+  top: 10%;
+  transform:translateX(-50%);
+  width: 1px;
+  height: 80%;
+  background: rgba(255,255,255,0.08);
+}
+.tl-lineProgress{
+  position:absolute;
+  left:0;
+  top:0;
+  width: 1px;
+  height: 100%;
+  transform-origin: top;
+  transform: scaleY(0);
+  background: rgba(255,255,255,0.28);
+  box-shadow:
+    0 0 18px rgba(255,255,255,0.15),
+    0 0 28px rgba(255, 198, 90, 0.08);
+}
+
+/* MIDIA */
+.tl-media{
+  position:relative;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap: 16px;
+  z-index:2;
+}
+
+/* CARD DA FOTO */
+.photo-card{
+  width: 560px;
+  max-width: 56vw;
+  aspect-ratio: 16 / 9;
+  border-radius: 18px;
+  overflow:hidden;
+  background: rgba(255,255,255,0.02);
+  border: 1px solid rgba(255,255,255,0.14);
+  box-shadow: 0 25px 70px rgba(0,0,0,0.65);
+  position:relative;
+}
+
+.photo-card img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  display:block;
+}
+
+/* ✅ GLOW sincronizado via CSS var --glow (0..1) */
+.glow-card{
+  --glow: 0.12; /* valor inicial, o JS atualiza */
+  transform: translateZ(0);
+  will-change: filter, transform;
+}
+
+/* luz meio branco/meio amarelo (intensidade depende de --glow) */
+.glow-card::before{
+  content:"";
+  position:absolute;
+  inset:-22px;
+  border-radius: 26px;
+  background:
+    radial-gradient(55% 65% at 35% 35%,
+      rgba(255,255,255,0.20) 0%,
+      rgba(255,255,255,0.06) 35%,
+      rgba(255, 200, 90, 0.10) 62%,
+      rgba(0,0,0,0) 75%);
+  filter: blur(14px);
+  z-index:-1;
+  opacity: calc(0.25 + (var(--glow) * 0.75));
+}
+
+.glow-card::after{
+  content:"";
+  position:absolute;
+  inset:-10px;
+  border-radius: 22px;
+  background:
+    radial-gradient(40% 60% at 65% 40%,
+      rgba(255, 200, 90, 0.16) 0%,
+      rgba(0,0,0,0) 70%);
+  filter: blur(16px);
+  z-index:-1;
+  opacity: calc(0.18 + (var(--glow) * 0.70));
+}
+
+/* um “polish” extra no brilho do card (também controlado pelo --glow) */
+.glow-card{
+  filter:
+    drop-shadow(0 0 calc(10px + (var(--glow) * 22px)) rgba(255,255,255, calc(0.03 + (var(--glow) * 0.07))))
+    drop-shadow(0 0 calc(16px + (var(--glow) * 26px)) rgba(255, 205, 95, calc(0.03 + (var(--glow) * 0.08))));
+}
+
+/* Hover premium (independente do scroll) */
+.glow-card:hover{
+  transform: scale(1.01);
+}
+
+/* SETAS */
+.nav-arrow{
+  height: 64px;
+  width: 64px;
+  border-radius: 999px;
+
+  border: 1px solid rgba(255,255,255,0.18);
+  background: rgba(255,255,255,0.02);
+  cursor: pointer;
+
+  display: grid;
+  place-items: center;
+
+  transition:
+    transform 0.22s ease,
+    background 0.22s ease,
+    border-color 0.22s ease;
+
+  user-select: none;
+}
+
+.nav-arrow:hover{
+  transform: scale(1.06);
+  background: rgba(255,255,255,0.06);
+  border-color: rgba(255,255,255,0.28);
+}
+.chev{
+  font-size: 28px;
+  line-height: 1;
+  opacity: 0.95;
+}
+
+/* TEXTO */
+.tl-copy{
+  max-width: 520px;
+  opacity: 0.95;
+  padding-left: 10px;
+}
+.tl-tag{
+  font-family: Arial, sans-serif;
+  letter-spacing: 0.22em;
+  font-size: 11px;
+  opacity: 0.6;
+  margin-bottom: 12px;
+}
+.tl-title{
+  font-size: 40px;
+  line-height: 1.05;
+  font-weight: 600;
+  margin-bottom: 14px;
+}
+.tl-text{
+  font-size: 14.5px;
+  line-height: 1.65;
+  opacity: 0.8;
+  max-width: 470px;
+}
+
+.tl-meta{
+  margin-top: 18px;
+  display:flex;
+  align-items:center;
+  gap: 10px;
+  opacity: 0.65;
+  font-family: Arial, sans-serif;
+  font-size: 12px;
+  letter-spacing: 0.04em;
+}
+.dot{
+  height: 5px;
+  width: 5px;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.55);
+}
+
+/* LINK */
+.tl-hint{
+  position:absolute;
+  left: 70px;
+  bottom: 28px;
+  opacity: 0.6;
+  font-family: Arial, sans-serif;
+  font-size: 12px;
+}
+.back-link{
+  color:#fff;
+  text-decoration:none;
+}
+.back-link:hover{ opacity: 0.85; }
+
+/* Alternância (texto/ano trocam de lado) */
+.tl-section[data-side="left"] .tl-grid{
+  grid-template-columns: 520px 1fr 220px;
+}
+.tl-section[data-side="left"] .tl-copy{
+  order: 1;
+  padding-left: 0;
+  padding-right: 10px;
+}
+.tl-section[data-side="left"] .tl-center{ order: 2; }
+.tl-section[data-side="left"] .tl-year{ order: 3; }
+
+/* RESPONSIVO */
+@media (max-width: 1100px){
+  body{ overflow:auto; }
+  .snap-section{ height:auto; min-height:100vh; }
+
+  .tl-grid{
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto auto;
+    padding: 50px 26px;
+    gap: 22px;
+  }
+
+  .tl-year{ justify-content:flex-start; }
+  .tl-yearStack{ font-size: 64px; text-align:left; }
+
+  .tl-copy{ max-width: 100%; padding-left:0; }
+  .photo-card{ width: 92vw; max-width: 92vw; }
+
+  .tl-line{ top: 16%; height: 70%; }
+  .tl-hint{ left: 26px; bottom: 18px; }
+}
