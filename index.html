@@ -1,16 +1,16 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Luza Engenharia</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <!-- FONTES PREMIUM -->
+  <!-- FONTES -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
 
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
 
@@ -20,8 +20,11 @@
     <img class="intro-logo" src="img/logo.png" alt="Luza Engenharia">
   </div>
 
-  <!-- CAPA -->
-  <section class="hero snap-section">
+  <!-- AMBIÊNCIA GLOBAL -->
+  <div class="ambient" aria-hidden="true"></div>
+
+  <!-- 1) CAPA -->
+  <section class="hero" aria-label="Capa">
     <div class="hero-bg"></div>
 
     <div class="hero-content">
@@ -37,80 +40,205 @@
       <p class="hero-sub">
         Projetos com estética, técnica e execução no detalhe.
       </p>
+
+      <a class="hero-cta" href="#hz1">Explorar <span>→</span></a>
+    </div>
+
+    <div class="hero-fade"></div>
+  </section>
+
+  <!-- 2 + 3) HORIZONTAL 1: CAPA 2 -> PAG 2 -->
+  <section class="hz" id="hz1" aria-label="Capa 2 e Página 2">
+    <div class="hz-pin">
+      <div class="hz-track">
+
+        <!-- CAPA 2 -->
+        <article class="panel about-panel">
+          <div class="about-bg"></div>
+
+          <div class="panel-inner about-wrap">
+            <div class="about-kicker">SOBRE A LUZA</div>
+            <h2 class="about-title">Fundada em 2023, com foco no detalhe.</h2>
+
+            <p class="about-text">
+              A Luza Engenharia nasce após anos de experiência prática no setor da construção.
+              Idealizada por Franchesco Luza, a empresa surge com o propósito de transformar conhecimento técnico
+              em projetos que impactam positivamente a vida das pessoas — unindo execução precisa, estética
+              atemporal e compromisso com cada etapa.
+            </p>
+
+            <div class="about-card">
+              <div class="about-card-k">LOCALIZAÇÃO</div>
+              <div class="about-card-t">Escritório — Frederico Westphalen / RS</div>
+              <div class="about-card-s">Endereço (placeholder): Rua Exemplo, 123 — Centro</div>
+            </div>
+          </div>
+        </article>
+
+        <!-- PAG 2 -->
+        <article class="panel spread-panel">
+          <div class="panel-inner spread spread-left">
+            <div class="spread-image">
+              <img src="img/obra4.jpg" alt="Obra 4">
+            </div>
+
+            <div class="spread-text editorial">
+              <span class="spread-label">LUZA</span>
+              <div class="spread-line"></div>
+
+              <p class="spread-quote">
+                Cada projeto nasce do equilíbrio entre técnica, estética e execução precisa.
+              </p>
+
+              <p class="spread-editorial">
+                Mais do que construir residências, a empresa traduz conceitos arquitetônicos em espaços funcionais,
+                valorizando linhas limpas, proporções corretas e soluções que permanecem atuais com o tempo.
+              </p>
+            </div>
+          </div>
+        </article>
+
+      </div>
     </div>
   </section>
 
-  <!-- PÁG 2 -->
-  <section class="spread spread-left snap-section">
-    <div class="spread-image">
-      <img src="img/obra4.jpg" alt="Obra 4">
+  <!-- 4) SERVIÇOS -->
+  <section class="services-section" aria-label="Serviços prestados">
+    <div class="services-inner">
+      <header class="services-head">
+        <div class="services-kicker">SERVIÇOS PRESTADOS</div>
+        <h2 class="services-title">Do conceito ao detalhe final.</h2>
+        <p class="services-sub">
+          Três frentes que cobrem o ciclo completo — com padrão visual e execução alinhados.
+        </p>
+      </header>
+
+      <div class="services-grid">
+        <div class="service">
+          <div class="service-tag">PROJETO</div>
+          <div class="service-media">
+            <img src="img/obra3.jpg" alt="Projeto">
+          </div>
+          <p class="service-text">
+            Ideias que já nascem com presença — linhas, volumes e luz pensados para durar.
+          </p>
+        </div>
+
+        <div class="service">
+          <div class="service-tag">PROJETO + CONSTRUÇÃO</div>
+          <div class="service-media">
+            <img src="img/obra8.jpg" alt="Projeto e construção">
+          </div>
+          <p class="service-text">
+            A visão do projeto segue até o canteiro — consistência do desenho à entrega.
+          </p>
+        </div>
+
+        <div class="service">
+          <div class="service-tag">CONSTRUÇÃO</div>
+          <div class="service-media">
+            <img src="img/obra10.jpg" alt="Construção">
+          </div>
+          <p class="service-text">
+            Execução sólida, ritmo de obra e acabamento para entregar “pronto de verdade”.
+          </p>
+        </div>
+      </div>
     </div>
-
-    <div class="spread-text editorial">
-      <span class="spread-label">LUZA</span>
-      <div class="spread-line"></div>
-
-      <p class="spread-quote">
-        Cada projeto nasce do equilíbrio entre técnica, estética e execução precisa.
-      </p>
-
-      <p class="spread-editorial">
-        Mais do que construir residências, a empresa traduz conceitos arquitetônicos em espaços funcionais,
-        valorizando linhas limpas, proporções corretas e soluções que permanecem atuais com o tempo.
-      </p>
-    </div>
-
-    <div class="page-number">02</div>
   </section>
 
-  <!-- PÁG 3 (invertida) -->
-  <section class="spread spread-left snap-section">
-    <div class="spread-text editorial">
-      <span class="spread-label">LUZA</span>
-      <div class="spread-line"></div>
+  <!-- 5) HORIZONTAL 2: TRANSITION -> PAG 3 -->
+  <section class="hz" id="hz2" aria-label="Página 3">
+    <div class="hz-pin">
+      <div class="hz-track">
 
-      <p class="spread-quote">
-        Presença arquitetônica com conforto e eficiência no uso do espaço.
-      </p>
+        <!-- TRANSITION (painel 1) -->
+        <article class="panel transition-panel">
+          <div class="panel-inner transition-inner">
+            <span class="transition-kicker">PADRÃO • PROCESSO • PRECISÃO</span>
 
-      <p class="spread-editorial">
-        Volume bem definido, entradas de luz e composição que prioriza circulação e proporções equilibradas —
-        do desenho à execução.
-      </p>
+            <h2 class="transition-title">
+              O detalhe é o que separa<br> o comum do memorável.
+            </h2>
+
+            <div class="transition-rule"></div>
+
+            <ul class="transition-bullets">
+              <li>Do projeto ao canteiro: leitura clara e execução fiel.</li>
+              <li>Escolhas de materiais com estética e durabilidade.</li>
+              <li>Obra limpa, organizada e com acompanhamento real.</li>
+            </ul>
+          </div>
+
+          <div class="transition-line" aria-hidden="true"></div>
+        </article>
+
+        <!-- PAG 3 (painel 2) -->
+        <article class="panel spread-panel">
+          <div class="panel-inner spread spread-right">
+            <div class="spread-text editorial">
+              <span class="spread-label">LUZA</span>
+              <div class="spread-line"></div>
+
+              <p class="spread-quote">
+                Presença arquitetônica com conforto e eficiência no uso do espaço.
+              </p>
+
+              <p class="spread-editorial">
+                Volume bem definido, entradas de luz e composição que prioriza circulação e proporções equilibradas —
+                do desenho à execução.
+              </p>
+            </div>
+
+            <div class="spread-image">
+              <img src="img/obra10.jpg" alt="Obra 10">
+            </div>
+          </div>
+        </article>
+
+      </div>
     </div>
-
-    <div class="spread-image">
-      <img src="img/obra10.jpg" alt="Obra 10">
-    </div>
-
-    <div class="page-number">03</div>
   </section>
 
-  <!-- PÁG 4 (FINAL PREMIUM / BLUEPRINT) -->
-  <section class="finale snap-section">
-    <div class="finale-inner">
-      <div class="finale-kicker">SOBRE A LUZA</div>
+  <!-- 6) TIMELINE (FORMATO NOVO, COMPONENTES IGUAIS) -->
+  <section class="timeline-section" aria-label="Linha do tempo e redes">
+    <div class="timeline-ui">
 
-      <h2 class="finale-title">
-        Construindo histórias<br>
-        que atravessam gerações.
-      </h2>
-
-      <div class="finale-rule"></div>
-
-      <p class="finale-text">
-        Fundada em 2022, a Luza Engenharia nasce após anos de experiência prática no setor da construção.
-        Idealizada por Franchesco Luza, a empresa surge com o propósito de transformar conhecimento técnico
-        em projetos que impactam positivamente a vida das pessoas — unindo execução precisa, estética
-        atemporal e compromisso com cada detalhe.
-      </p>
-
-      <a href="linha-do-tempo.html" class="finale-cta">
-        Linha do Tempo <span class="arrow">→</span>
+      <a class="btn timeline-main" href="linha-do-tempo.html">
+        linha do tempo <span>›</span>
       </a>
-    </div>
 
-    <div class="page-number">04</div>
+      <p class="timeline-mini">Obras, evolução e assinatura de execução.</p>
+
+      <div class="timeline-icons social" aria-label="Redes sociais">
+        <a class="social-ic" href="#" aria-label="Instagram">
+          <!-- IG -->
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5z" fill="none" stroke="currentColor" stroke-width="1.7"/>
+            <path d="M12 8.5a3.5 3.5 0 1 0 0 7 3.5 3.5 0 0 0 0-7z" fill="none" stroke="currentColor" stroke-width="1.7"/>
+            <path d="M17.8 6.2h.01" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/>
+          </svg>
+        </a>
+
+        <a class="social-ic" href="#" aria-label="Facebook">
+          <!-- FB -->
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M14 8h2V5h-2c-2.2 0-4 1.8-4 4v3H8v3h2v7h3v-7h2.1l.9-3H13V9c0-.6.4-1 1-1z"
+              fill="currentColor"/>
+          </svg>
+        </a>
+
+        <a class="social-ic" href="https://wa.me/5500000000000" target="_blank" rel="noopener" aria-label="WhatsApp">
+          <!-- WA -->
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M12 2a9 9 0 0 0-7.7 13.6L3 22l6.6-1.7A9 9 0 1 0 12 2z"
+              fill="none" stroke="currentColor" stroke-width="1.7"/>
+            <path d="M9.2 8.8c.2-.4.4-.4.6-.4h.5c.1 0 .3 0 .4.3l.9 2.2c.1.2 0 .4-.1.5l-.4.5c-.1.1-.1.3 0 .4.5.8 1.2 1.5 2 2 .1.1.3.1.4 0l.6-.4c.1-.1.3-.2.5-.1l2.2.9c.2.1.3.3.3.4v.5c0 .2 0 .4-.4.6-.4.3-1.2.5-2 .3-1.3-.3-3-1.4-4.2-2.6-1.2-1.2-2.3-2.9-2.6-4.2-.2-.8 0-1.6.3-2z"
+              fill="currentColor"/>
+          </svg>
+        </a>
+      </div>
+    </div>
   </section>
 
   <!-- GSAP -->
