@@ -1,273 +1,275 @@
 gsap.registerPlugin(ScrollTrigger);
-ScrollTrigger.killAll();
-
-const sections = [...document.querySelectorAll(".snap-section")];
-
-let index = 0;
-let locked = false;
-let armed = false;
-let armTimer = null;
 
 let heroPlayed = false;
 
-function armAfterDelay(ms = 1500){
-  armed = false;
-  clearTimeout(armTimer);
-  armTimer = setTimeout(() => (armed = true), ms);
-}
-
-/* HERO — REVEAL MAIS LENTO */
-function animateHero(force = false){
-  if (heroPlayed && !force) return;
-  heroPlayed = true;
-
-  gsap.killTweensOf([
-    ".hero-eyebrow", ".hero-rule", ".hero-sub",
-    ".hero-line-inner", ".hero-bg"
-  ]);
-
-  gsap.fromTo(
-    [".hero-eyebrow", ".hero-rule", ".hero-sub"],
-    { x: -28, opacity: 0 },
-    {
-      x: 0,
-      opacity: 1,
-      duration: 0.9,
-      ease: "power3.out",
-      stagger: 0.12,
-      overwrite: true
-    }
-  );
-
-  gsap.fromTo(
-    ".hero-line-inner",
-    { x: -140, opacity: 0 },
-    {
-      x: 0,
-      opacity: 1,
-      duration: 1.85,
-      ease: "power4.out",
-      stagger: 0.30,
-      overwrite: true
-    }
-  );
-
-  gsap.to(".hero-bg", {
-    scale: 1.02,
-    duration: 1.4,
-    ease: "power2.out",
-    overwrite: true
-  });
-}
-
-/* SPREADS */
-function animateSpread(section){
-  const labelText = section.querySelector(".spread-label")?.textContent?.trim()?.toUpperCase();
-  const isLuzaPage = labelText === "LUZA";
-
-  const img = section.querySelector(".spread-image");
-  const label = section.querySelector(".spread-label");
-  const line = section.querySelector(".spread-line");
-  const quote = section.querySelector(".spread-quote");
-  const body = section.querySelector(".spread-editorial");
-
-  if (img) {
-    gsap.fromTo(
-      img,
-      { y: 18, opacity: 0 },
-      { y: 0, opacity: 1, duration: 0.7, ease: "power2.out", overwrite: true }
-    );
-  }
-
-  if (isLuzaPage) {
-    const tl = gsap.timeline({ delay: 0.08 });
-
-    tl.fromTo(label, { y: 10, opacity: 0 }, { y: 0, opacity: 1, duration: 0.4, ease: "power2.out" })
-      .fromTo(line,  { scaleX: 0, opacity: 0, transformOrigin: "left center" },
-                    { scaleX: 1, opacity: 1, duration: 0.5, ease: "power2.out" }, "-=0.15")
-      .fromTo(quote, { y: 14, opacity: 0 },
-                    { y: 0, opacity: 1, duration: 0.85, ease: "power3.out" }, "+=0.15")
-      .fromTo(body,  { y: 12, opacity: 0 },
-                    { y: 0, opacity: 1, duration: 0.75, ease: "power2.out" }, "-=0.35");
-    return;
-  }
-
-  const els = [label, line, quote, body].filter(Boolean);
-  gsap.fromTo(
-    els,
-    { y: 18, opacity: 0 },
-    { y: 0, opacity: 1, duration: 0.75, stagger: 0.12, ease: "power2.out", overwrite: true }
-  );
-}
-
-/* FINALE */
-function animateFinale(){
-  gsap.fromTo(
-    ".finale-kicker, .finale-title, .finale-rule, .finale-text",
-    { y: 18, opacity: 0 },
-    { y: 0, opacity: 1, duration: 0.9, stagger: 0.14, ease: "power2.out", overwrite: true }
-  );
-
-  gsap.fromTo(
-    ".finale-cta",
-    { y: 12, opacity: 0 },
-    { y: 0, opacity: 1, duration: 0.75, ease: "power2.out", delay: 0.2, overwrite: true }
-  );
-}
-
-function animateSection(i){
-  const section = sections[i];
-
-  if(section.classList.contains("hero")){
-    animateHero();
-    return;
-  }
-
-  if(section.classList.contains("spread")){
-    animateSpread(section);
-    return;
-  }
-
-  if(section.classList.contains("finale")){
-    animateFinale();
-    return;
-  }
-}
-
-/* INTRO */
-function playIntro(){
+/* -----------------------
+   INTRO
+------------------------ */
+function playIntro() {
   const intro = document.querySelector("#intro");
   const light = document.querySelector(".intro-light");
-  const logo = document.querySelector(".intro-logo");
+  const logo  = document.querySelector(".intro-logo");
 
   const tl = gsap.timeline({
     defaults: { ease: "power2.out" },
     onComplete: () => {
       intro.style.pointerEvents = "none";
-      armAfterDelay(650);
+      setTimeout(() => animateHero(true), 40);
     }
   });
 
   gsap.set(intro, { autoAlpha: 1 });
   gsap.set(light, { autoAlpha: 0, scale: 0.98 });
-  gsap.set(logo, { autoAlpha: 0, y: 8 });
+  gsap.set(logo,  { autoAlpha: 0, y: 8 });
 
-  tl.to({}, { duration: 1.0 })
+  tl.to({}, { duration: 0.9 })
     .to(light, { autoAlpha: 1, scale: 1, duration: 0.9 }, "+=0.05")
-    .to(logo, { autoAlpha: 1, y: 0, duration: 1.0 }, "-=0.5")
-    .add(() => animateHero(true), "-=0.45")
+    .to(logo,  { autoAlpha: 1, y: 0, duration: 1.0 }, "-=0.55")
     .to(intro, { autoAlpha: 0, duration: 0.9 }, "-=0.2");
 
   return tl;
 }
 
-/* SCROLL */
-function goTo(i){
-  const next = Math.max(0, Math.min(i, sections.length - 1));
-  if(next === index){
-    armAfterDelay();
+/* -----------------------
+   HERO
+------------------------ */
+function prepHero() {
+  gsap.set([".hero-eyebrow",".hero-rule",".hero-sub",".hero-cta"], { opacity: 0, x: -28 });
+  gsap.set(".hero-line-inner", { opacity: 0, x: -140 });
+}
+
+function animateHero(force = false) {
+  if (heroPlayed && !force) return;
+  heroPlayed = true;
+
+  gsap.killTweensOf([
+    ".hero-eyebrow",".hero-rule",".hero-sub",".hero-cta",
+    ".hero-line-inner",".hero-bg"
+  ]);
+
+  gsap.to([".hero-eyebrow", ".hero-rule", ".hero-sub", ".hero-cta"], {
+    x: 0, opacity: 1, duration: 0.9, ease: "power3.out",
+    stagger: 0.12, overwrite: true
+  });
+
+  gsap.to(".hero-line-inner", {
+    x: 0, opacity: 1, duration: 1.85, ease: "power4.out",
+    stagger: 0.30, overwrite: true
+  });
+
+  gsap.to(".hero-bg", {
+    scale: 1.02, duration: 1.4, ease: "power2.out", overwrite: true
+  });
+}
+
+/* -----------------------
+   VERTICAL REVEALS
+------------------------ */
+function revealGroup(targets, trigger) {
+  const els = gsap.utils.toArray(targets);
+  if (!els.length) return;
+
+  gsap.set(els, { y: 18, opacity: 0 });
+
+  gsap.to(els, {
+    y: 0, opacity: 1, duration: 0.9, ease: "power2.out",
+    stagger: 0.06,
+    scrollTrigger: { trigger, start: "top 70%", once: true }
+  });
+}
+
+/* -----------------------
+   HORIZONTAL HELPERS
+------------------------ */
+function getPanelTargets(panel) {
+  if (panel.querySelector(".about-wrap")) {
+    return gsap.utils.toArray(panel.querySelectorAll(
+      ".about-kicker,.about-title,.about-text,.about-card"
+    ));
+  }
+
+  if (panel.querySelector(".spread")) {
+    return gsap.utils.toArray(panel.querySelectorAll(
+      ".spread-label,.spread-line,.spread-quote,.spread-editorial,.spread-image"
+    ));
+  }
+
+  if (panel.classList.contains("transition-panel")) {
+    return gsap.utils.toArray(panel.querySelectorAll(
+      ".transition-kicker,.transition-title,.transition-rule,.transition-bullets li"
+    ));
+  }
+
+  return [];
+}
+
+function hidePanel(panel) {
+  const targets = getPanelTargets(panel);
+  if (targets.length) gsap.set(targets, { y: 18, opacity: 0 });
+
+  const line = panel.querySelector(".transition-line");
+  if (line) gsap.set(line, { scaleY: 0, opacity: 0, transformOrigin: "top center" });
+
+  panel.dataset.animated = "0";
+}
+
+function animateTransition(panel) {
+  const els = panel.querySelectorAll(
+    ".transition-kicker, .transition-title, .transition-rule, .transition-bullets li"
+  );
+
+  gsap.to(els, {
+    y: 0, opacity: 1, duration: 0.95, ease: "power2.out",
+    stagger: 0.08, overwrite: true
+  });
+
+  const line = panel.querySelector(".transition-line");
+  if (line) {
+    gsap.to(line, {
+      scaleY: 1, opacity: 0.65, duration: 1.15,
+      ease: "power2.out", overwrite: true
+    });
+  }
+}
+
+function animatePanel(panel) {
+  if (!panel || panel.dataset.animated === "1") return;
+  panel.dataset.animated = "1";
+
+  if (panel.classList.contains("transition-panel")) {
+    animateTransition(panel);
     return;
   }
 
-  index = next;
-  locked = true;
-  armed = false;
-  clearTimeout(armTimer);
+  const targets = getPanelTargets(panel);
+  if (!targets.length) return;
 
-  sections[index].scrollIntoView({ behavior: "smooth", block: "start" });
-
-  setTimeout(() => animateSection(index), 80);
-
-  setTimeout(() => {
-    locked = false;
-    armAfterDelay(1500);
-  }, 450);
+  gsap.to(targets, {
+    y: 0, opacity: 1, duration: 0.9, ease: "power2.out",
+    stagger: 0.06, overwrite: true
+  });
 }
 
-/* START */
-sections[0].scrollIntoView({ behavior: "auto", block: "start" });
-armed = false;
-locked = false;
+/* -----------------------
+   PREP: esconder tudo dos horizontais
+------------------------ */
+function prepHorizontals() {
+  document.querySelectorAll(".hz .panel").forEach(hidePanel);
+}
 
+/* -----------------------
+   HORIZONTAL SETUP (com “marcos”)
+------------------------ */
+function setupHorizontal(section) {
+  const track = section.querySelector(".hz-track");
+  const ambient = document.querySelector(".ambient");
+  if (!track) return;
+
+  const panels = Array.from(section.querySelectorAll(".panel"));
+  if (!panels.length) return;
+
+  const getDistance = () => Math.max(0, track.scrollWidth - window.innerWidth);
+  const endValue = () => "+=" + getDistance() * 1.15;
+
+  const tween = gsap.to(track, {
+    x: () => -getDistance(),
+    ease: "none",
+    scrollTrigger: {
+      trigger: section,
+      start: "top top",
+      end: endValue,
+      pin: true,
+      scrub: 1.35,
+      anticipatePin: 1,
+      invalidateOnRefresh: true
+    }
+  });
+
+  // glow sync
+  ScrollTrigger.create({
+    trigger: section,
+    start: "top top",
+    end: endValue,
+    scrub: true,
+    onUpdate: (self) => {
+      if (!ambient) return;
+      const t = self.progress;
+
+      const gx = 38 + t * 36;
+      const gy = 44 + Math.sin(t * Math.PI) * 8;
+      const g1 = 0.18 + t * 0.10;
+      const g2 = 0.20 - t * 0.05;
+      const v  = 0.52 + Math.sin(t * Math.PI) * 0.05;
+
+      ambient.style.setProperty("--gx", gx.toFixed(2) + "%");
+      ambient.style.setProperty("--gy", gy.toFixed(2) + "%");
+      ambient.style.setProperty("--g1", g1.toFixed(3));
+      ambient.style.setProperty("--g2", g2.toFixed(3));
+      ambient.style.setProperty("--v",  v.toFixed(3));
+    }
+  });
+
+  // parallax leve
+  section.querySelectorAll("img").forEach((img) => {
+    gsap.to(img, {
+      xPercent: -5,
+      ease: "none",
+      scrollTrigger: {
+        trigger: img.closest(".panel"),
+        containerAnimation: tween,
+        start: "left center",
+        end: "right center",
+        scrub: 1.1
+      }
+    });
+  });
+
+  // ✅ MARCOS: anima conforme o x do track atinge cada painel
+  const panelWidth = () => window.innerWidth; // cada painel = 100vw
+  const panelX = (i) => -i * panelWidth();    // posição do track quando painel i está “central”
+
+  ScrollTrigger.create({
+    trigger: section,
+    start: "top top",
+    end: endValue,
+    scrub: true,
+    onUpdate: () => {
+      // valor atual do x do track (negativo)
+      const x = gsap.getProperty(track, "x");
+
+      // tolerância pra não ficar “no limite”
+      const tol = panelWidth() * 0.35;
+
+      panels.forEach((p, i) => {
+        // se x está perto do marco desse painel -> anima
+        if (Math.abs(x - panelX(i)) < tol) {
+          animatePanel(p);
+        }
+      });
+    }
+  });
+}
+
+/* -----------------------
+   START
+------------------------ */
+prepHero();
+prepHorizontals();
 playIntro();
 
-/* DESKTOP WHEEL */
-window.addEventListener("wheel", (e) => {
-  e.preventDefault();
-  if(locked || !armed) return;
-
-  const dir = Math.sign(e.deltaY);
-  if(dir > 0) goTo(index + 1);
-  else if(dir < 0) goTo(index - 1);
-
-  armed = false;
-}, { passive: false });
-
-/* TECLADO */
-window.addEventListener("keydown", (e) => {
-  if(locked || !armed) return;
-
-  if(["ArrowDown","PageDown"," "].includes(e.key)){
-    e.preventDefault();
-    goTo(index + 1);
-    armed = false;
-  }
-
-  if(["ArrowUp","PageUp"].includes(e.key)){
-    e.preventDefault();
-    goTo(index - 1);
-    armed = false;
-  }
+ScrollTrigger.create({
+  trigger: ".hero",
+  start: "top top",
+  once: true,
+  onEnter: () => animateHero(false)
 });
 
-/* ✅ MOBILE SWIPE (TOUCH) */
-let tStartX = 0;
-let tStartY = 0;
-let tLastX  = 0;
-let tLastY  = 0;
-let touching = false;
+revealGroup(".services-kicker,.services-title,.services-sub,.service", ".services-section");
+revealGroup(".timeline-ui .timeline-main,.timeline-ui .timeline-mini,.timeline-ui .social-ic", ".timeline-section");
 
-const SWIPE_MIN = 55;     // sensibilidade (px)
-const ANGLE_RATIO = 0.75; // se arrastar muito pro lado, ignora
+document.querySelectorAll(".hz").forEach(setupHorizontal);
 
-window.addEventListener("touchstart", (e) => {
-  if (!e.touches || e.touches.length !== 1) return;
-  const t = e.touches[0];
-  tStartX = tLastX = t.clientX;
-  tStartY = tLastY = t.clientY;
-  touching = true;
-}, { passive: true });
-
-window.addEventListener("touchmove", (e) => {
-  if (!touching || !e.touches || e.touches.length !== 1) return;
-  const t = e.touches[0];
-  tLastX = t.clientX;
-  tLastY = t.clientY;
-
-  // como o body tá overflow:hidden, evita “bounce” em alguns navegadores
-  // e mantém a sensação premium (precisa passive:false)
-  e.preventDefault();
-}, { passive: false });
-
-window.addEventListener("touchend", () => {
-  if (!touching) return;
-  touching = false;
-
-  if (locked || !armed) return;
-
-  const dx = tLastX - tStartX;
-  const dy = tLastY - tStartY;
-
-  // pouco movimento = ignora
-  if (Math.abs(dy) < SWIPE_MIN) return;
-
-  // se o swipe foi muito diagonal/ horizontal, ignora
-  if (Math.abs(dx) > Math.abs(dy) * ANGLE_RATIO) return;
-
-  // swipe pra cima (dy negativo) -> próxima
-  if (dy < 0) goTo(index + 1);
-  // swipe pra baixo -> anterior
-  else goTo(index - 1);
-
-  armed = false;
+window.addEventListener("load", () => {
+  ScrollTrigger.refresh();
 });
+
